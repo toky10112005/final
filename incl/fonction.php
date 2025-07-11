@@ -71,4 +71,15 @@
     }
     return $valiny;
 }
+
+function count_employees($dept_no) {
+    $sql = "SELECT COUNT(e.emp_no) as count
+     FROM departments as d
+     JOIN dept_emp as de ON d.dept_no =de.dept_no
+     JOIN employees as e ON de.emp_no = e.emp_no
+     WHERE d.dept_no = '$dept_no'";
+    $result = mysqli_query(dbconnect(), $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['count'];
+}
 ?>  `
