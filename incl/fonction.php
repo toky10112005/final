@@ -27,9 +27,48 @@
 }
 
     function fiche($emp_no){
-        $sql="SELECT e.first_name,e.last_name,e.gender,MAX(s.salary) 
+        $sql="SELECT e.first_name,e.last_name,e.gender,MAX(s.salary) as max
         FROM employees e 
-        JOIN salaries s on s.emp_no=e.emp_no
-        WHERE e.emp_no=$emp_no";
+        JOIN salaries s ON s.emp_no=e.emp_no 
+        WHERE e.emp_no='$emp_no'";
+        $result=mysqli_query(dbconnect(),$sql);
+        return mysqli_fetch_assoc($result);
     }   
+
+    function nom_dept($dept_no){
+        $sql="SELECT dept_name FROM departments WHERE dept_no='$dept_no'";
+        $result=mysqli_query(dbconnect(),$sql);
+        return mysqli_fetch_assoc($result);
+    }
+    function titre_emp($emp_no){
+        $sql="SELECT title FROM titles WHERE emp_no='$emp_no'";
+        $result=mysqli_query(dbconnect(),$sql);
+        return mysqli_fetch_assoc($result);
+    }
+    function histo_salaire($emp_no){
+        $sql="SELECT salary FROM salaries WHERE emp_no='$emp_no'";
+        $result=mysqli_query(dbconnect(),$sql);
+        $valiny=array();
+        while($row=mysqli_fetch_assoc($result)){
+            $valiny[]=$row;
+        }
+        return $valiny;
+    }
+   
+    function recherche($dep, $emp, $min, $max, $limit = 20, $offset = 0){
+    $sql = "SELECT departments.dept_name, employees.first_name, employees.last_name, employees.emp_no, employees.birth_date
+            FROM departments
+            JOIN dept_emp ON departments.dept_no = dept_emp.dept_no
+            JOIN employees ON dept_emp.emp_no = employees.emp_no
+            WHERE departments.dept_name LIKE '%$dep%'
+              AND employees.first_name LIKE '%$emp%'
+              AND TIMESTAMPDIFF(YEAR, employees.birth_date, CURDATE()) BETWEEN $min AND $max
+            LIMIT $limit OFFSET $offset";
+    $result = mysqli_query(dbconnect(), $sql);
+    $valiny = array();
+    while($row = mysqli_fetch_assoc($result)){
+        $valiny[] = $row; 
+    }
+    return $valiny;
+}
 ?>  `

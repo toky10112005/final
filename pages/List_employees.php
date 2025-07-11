@@ -12,6 +12,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employees</title>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
     <nav>
@@ -24,7 +25,7 @@ session_start();
             </tr>
         <?php foreach($list as $list){?>
             <tr>
-                <td><a href="TRaitement_fiche.php?emp_no=<?= $list['emp_no']?>"><?= $list['first_name']?></a></td>
+                <td><a href="traitement_fiche.php?emp_no=<?= $list['emp_no']?>"><?= $list['first_name']?></a></td>
             </tr>
             <?php }?>
         </table>

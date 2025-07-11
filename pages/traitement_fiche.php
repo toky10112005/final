@@ -1,6 +1,7 @@
 <?php
     session_start();
 
-    $_SESSSION['emp_no']=$_GET['emp_no'];
+    $_SESSION['emp_no']=$_GET['emp_no'];
+    $_SESSION['count']=0;
     header('Location:fiche.php');
 ?>
